@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : SimpleCalculator.c
+ Name        : C-Exercise.c
  Author      : Muhamed Kotp
  Version     : 1.0
  Date		 : 17/09/2019
