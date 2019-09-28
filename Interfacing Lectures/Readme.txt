@@ -1,1 +1,1 @@
-This folder will contain both material and projects for interfacing course
+This folder contains both material and projects for interfacing course
