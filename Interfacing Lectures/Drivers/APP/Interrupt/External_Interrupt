@@ -2,13 +2,12 @@
  * main.c
  *
  *  Created on: Sep 20, 2019
- *      Author: Egypt LapTop
+ *      Author: Muhamed Kotp
  */
 
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <avr/io.h>
-//#include "../Controller/ATMEGA16/Registers.h"
 #include "../Service/StdMacros.h"
 #include "../Service/StdTypes.h"
 #include "../MCAL/GPIO/GPIO.h"
@@ -18,8 +17,6 @@
 #define LED_PIN		7
 #define BUTTON_PIN	0
 
-GPIO_pinState buttState = 1;
-StdReturn errorStatus = E_OK;
 
 ISR(INT2_vect){
 	TOGGLE_BIT(PORTB, LED_PIN);

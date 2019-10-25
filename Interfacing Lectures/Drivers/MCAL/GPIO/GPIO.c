@@ -181,6 +181,39 @@ StdReturn GPIO_writePin(GPIO_port port, uint8 pin, GPIO_pinState state) {
 	return E_OK;
 }
 
+/* Brief:	Toggle a specific DIO pin
+ * Details:	This API is used to toggle pin status of DIO (HIGH -> LOW or LOW -> HIGH)
+ * Input:	port	-Port name
+ * 			pin		-Pin number
+ * Output:  No output
+ * return:	StdReturn	-return the API status
+ * prerequisites:	pin direction to be set output
+ */
+StdReturn GPIO_togglePin(GPIO_port port, uint8 pin) {
+	if (pin > MAX_PIN_NUMBER) {
+		return E_NOK;
+	} else {
+		switch (port) {
+		case GPIO_PORTA:
+			TOGGLE_BIT(PORTA, pin);
+			break;
+		case GPIO_PORTB:
+			TOGGLE_BIT(PORTB, pin);
+			break;
+		case GPIO_PORTC:
+			TOGGLE_BIT(PORTC, pin);
+			break;
+		case GPIO_PORTD:
+			TOGGLE_BIT(PORTD, pin);
+			break;
+		default:
+			return E_NOK;
+		}
+	}
+
+	return E_OK;
+}
+
 /* Brief:	Read a specific DIO pin
  * Details:	This API is used to get a specific pin of DIO whether HIGH - LOW
  * Input:	port	-Port name

@@ -89,6 +89,16 @@ StdReturn GPIO_setPinDirection(GPIO_port port, uint8 pin, GPIO_pinType state);
  */
 StdReturn GPIO_writePin(GPIO_port port, uint8 pin, GPIO_pinState state);
 
+/* Brief:	Toggle a specific DIO pin
+ * Details:	This API is used to toggle pin status of DIO (HIGH -> LOW or LOW -> HIGH)
+ * Input:	port	-Port name
+ * 			pin		-Pin number
+ * Output:  No output
+ * return:	StdReturn	-return the API status
+ * prerequisites:	pin direction to be set output
+ */
+StdReturn GPIO_togglePin(GPIO_port port, uint8 pin);
+
 /* Brief:	Read a specific DIO pin
  * Details:	This API is used to get a specific pin of DIO whether HIGH - LOW
  * Input:	port	-Port name
