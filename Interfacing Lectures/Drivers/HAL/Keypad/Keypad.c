@@ -18,10 +18,7 @@ static const uint8 keypadButtons[4][4] = {
 		{'*', '0', '#', 'E'}
 };
 
-/*
-static const uint8 keypadButtons[4][4] = { { '+', '3', '2', '1' }, { '-', '6',
-		'5', '4' }, { '/', '9', '8', '7' }, { 'E', '#', '0', '*' } };
-*/
+
 void Keypad_init(void) {
 	GPIO_setPinDirection(COL_1_PORT_REG, COL_1_PIN_NUM, GPIO_OUTPUT);
 	GPIO_setPinDirection(COL_2_PORT_REG, COL_2_PIN_NUM, GPIO_OUTPUT);
@@ -115,57 +112,4 @@ StdReturn Keypad_getKey(uint8 *key) {
 
 	return E_OK;
 }
-
-/*
-uint8 Keypad_getKey() {
-	uint8 column = 0;
-	uint8 row = 0;
-	uint8 result = 0XFF;
-	// loop on columns
-	for (column = 0; column < 4; column++) {
-		//Set columns to no output state
-		SET_BIT(PORTD, COL_1_PIN_NUM);
-		SET_BIT(PORTD, COL_2_PIN_NUM);
-		SET_BIT(PORTD, COL_3_PIN_NUM);
-		SET_BIT(PORTD, COL_4_PIN_NUM);
-		switch (column) { // set the numbered column to output state (0)
-		case 0:
-			CLEAR_BIT(PORTD, COL_1_PIN_NUM);
-			break;
-		case 1:
-			CLEAR_BIT(PORTD, COL_2_PIN_NUM);
-			break;
-		case 2:
-			CLEAR_BIT(PORTD, COL_3_PIN_NUM);
-			break;
-		case 3:
-			CLEAR_BIT(PORTD, COL_4_PIN_NUM);
-			break;
-		default:
-			break;
-		}
-		// check the inputs
-		if (READ_BIT(PORTD, ROW_1_PIN_NUM) == 0) {
-			row = 0;
-		} else if (READ_BIT(PORTD, ROW_2_PIN_NUM) == 0) {
-			row = 1;
-		} else if (READ_BIT(PORTD, ROW_3_PIN_NUM) == 0) {
-			row = 2;
-		} else if (READ_BIT(PORTD, ROW_4_PIN_NUM) == 0) {
-			row = 3;
-		} else {
-			row = 0xFF;
-		}
-		// if there was a valid input
-		if (row != 0xFF) {
-			// wait until input is gone
-			result = keypadButtons[row][column];
-			break;	//Jump out of the loop
-		} else {
-			result = 0xFF;
-		}
-	}
-	return result;
-}
-*/
 

@@ -17,7 +17,6 @@
 extern void Keypad_init(void);
 
 extern StdReturn Keypad_getKey (uint8 *key);
-//extern uint8 Keypad_getKey ();
 
 
 #endif /* HAL_KEYPAD_KEYPAD_H_ */
