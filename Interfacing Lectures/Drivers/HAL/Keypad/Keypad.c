@@ -1,0 +1,171 @@
+/*
+ * Keypad.c
+ *
+ *  Created on: Oct 12, 2019
+ *      Author: Muhamed Kotp
+ */
+
+#include "Keypad_cfg.h"
+#include "Keypad.h"
+#include "../../Service/StdMacros.h"
+#include "../../Controller/ATMEGA16/Registers.h"
+
+
+static const uint8 keypadButtons[4][4] = {
+		{'1', '2', '3', '+'},
+		{'4', '5', '6', '-'},
+		{'7', '8', '9', '/'},
+		{'*', '0', '#', 'E'}
+};
+
+/*
+static const uint8 keypadButtons[4][4] = { { '+', '3', '2', '1' }, { '-', '6',
+		'5', '4' }, { '/', '9', '8', '7' }, { 'E', '#', '0', '*' } };
+*/
+void Keypad_init(void) {
+	GPIO_setPinDirection(COL_1_PORT_REG, COL_1_PIN_NUM, GPIO_OUTPUT);
+	GPIO_setPinDirection(COL_2_PORT_REG, COL_2_PIN_NUM, GPIO_OUTPUT);
+	GPIO_setPinDirection(COL_3_PORT_REG, COL_3_PIN_NUM, GPIO_OUTPUT);
+	GPIO_setPinDirection(COL_4_PORT_REG, COL_4_PIN_NUM, GPIO_OUTPUT);
+	GPIO_setPinDirection(ROW_1_PORT_REG, ROW_1_PIN_NUM, GPIO_INPUT);
+	GPIO_setPinDirection(ROW_2_PORT_REG, ROW_2_PIN_NUM, GPIO_INPUT);
+	GPIO_setPinDirection(ROW_3_PORT_REG, ROW_3_PIN_NUM, GPIO_INPUT);
+	GPIO_setPinDirection(ROW_4_PORT_REG, ROW_4_PIN_NUM, GPIO_INPUT);
+
+	GPIO_enablePullup(ROW_1_PORT_REG, ROW_1_PIN_NUM, GPIO_PULLUP_ENABLE);
+	GPIO_enablePullup(ROW_2_PORT_REG, ROW_2_PIN_NUM, GPIO_PULLUP_ENABLE);
+	GPIO_enablePullup(ROW_3_PORT_REG, ROW_3_PIN_NUM, GPIO_PULLUP_ENABLE);
+	GPIO_enablePullup(ROW_4_PORT_REG, ROW_4_PIN_NUM, GPIO_PULLUP_ENABLE);
+
+	GPIO_writePin(COL_1_PORT_REG, COL_1_PIN_NUM, GPIO_HIGH);
+	GPIO_writePin(COL_2_PORT_REG, COL_2_PIN_NUM, GPIO_HIGH);
+	GPIO_writePin(COL_3_PORT_REG, COL_3_PIN_NUM, GPIO_HIGH);
+	GPIO_writePin(COL_4_PORT_REG, COL_4_PIN_NUM, GPIO_HIGH);
+}
+
+StdReturn Keypad_getKey(uint8 *key) {
+//GPIO_readPin
+
+	uint8 col = 1;
+	uint8 row = 1;
+
+	GPIO_pinState buttonState = GPIO_HIGH;
+
+	for (col = 1; col <= 4; col++) {
+		GPIO_writePin(COL_1_PORT_REG, COL_1_PIN_NUM, GPIO_HIGH);
+		GPIO_writePin(COL_2_PORT_REG, COL_2_PIN_NUM, GPIO_HIGH);
+		GPIO_writePin(COL_3_PORT_REG, COL_3_PIN_NUM, GPIO_HIGH);
+		GPIO_writePin(COL_4_PORT_REG, COL_4_PIN_NUM, GPIO_HIGH);
+
+		switch (col) {
+		case 1:
+			GPIO_writePin(COL_1_PORT_REG, COL_1_PIN_NUM, GPIO_LOW);
+			break;
+		case 2:
+			GPIO_writePin(COL_2_PORT_REG, COL_2_PIN_NUM, GPIO_LOW);
+			break;
+		case 3:
+			GPIO_writePin(COL_3_PORT_REG, COL_3_PIN_NUM, GPIO_LOW);
+			break;
+		case 4:
+			GPIO_writePin(COL_4_PORT_REG, COL_4_PIN_NUM, GPIO_LOW);
+			break;
+		default:
+			break;
+		}
+
+		for (row = 1; row <= 4; row++) {
+
+			switch (row) {
+			case 1:
+				GPIO_readPin(ROW_1_PORT_REG, ROW_1_PIN_NUM, &buttonState);
+				break;
+			case 2:
+				GPIO_readPin(ROW_2_PORT_REG, ROW_2_PIN_NUM, &buttonState);
+				break;
+			case 3:
+				GPIO_readPin(ROW_3_PORT_REG, ROW_3_PIN_NUM, &buttonState);
+				break;
+			case 4:
+				GPIO_readPin(ROW_4_PORT_REG, ROW_4_PIN_NUM, &buttonState);
+				break;
+			default:
+				break;
+			}
+
+			if(buttonState == GPIO_LOW){
+				break;
+			}
+
+		}
+
+		if(row <= 4){
+			break;
+		}
+
+	}
+
+	if(col <= 4){
+		*key = keypadButtons[row-1][col-1];
+	}
+	else{
+		*key = 0xFF;
+	}
+
+
+	return E_OK;
+}
+
+/*
+uint8 Keypad_getKey() {
+	uint8 column = 0;
+	uint8 row = 0;
+	uint8 result = 0XFF;
+	// loop on columns
+	for (column = 0; column < 4; column++) {
+		//Set columns to no output state
+		SET_BIT(PORTD, COL_1_PIN_NUM);
+		SET_BIT(PORTD, COL_2_PIN_NUM);
+		SET_BIT(PORTD, COL_3_PIN_NUM);
+		SET_BIT(PORTD, COL_4_PIN_NUM);
+		switch (column) { // set the numbered column to output state (0)
+		case 0:
+			CLEAR_BIT(PORTD, COL_1_PIN_NUM);
+			break;
+		case 1:
+			CLEAR_BIT(PORTD, COL_2_PIN_NUM);
+			break;
+		case 2:
+			CLEAR_BIT(PORTD, COL_3_PIN_NUM);
+			break;
+		case 3:
+			CLEAR_BIT(PORTD, COL_4_PIN_NUM);
+			break;
+		default:
+			break;
+		}
+		// check the inputs
+		if (READ_BIT(PORTD, ROW_1_PIN_NUM) == 0) {
+			row = 0;
+		} else if (READ_BIT(PORTD, ROW_2_PIN_NUM) == 0) {
+			row = 1;
+		} else if (READ_BIT(PORTD, ROW_3_PIN_NUM) == 0) {
+			row = 2;
+		} else if (READ_BIT(PORTD, ROW_4_PIN_NUM) == 0) {
+			row = 3;
+		} else {
+			row = 0xFF;
+		}
+		// if there was a valid input
+		if (row != 0xFF) {
+			// wait until input is gone
+			result = keypadButtons[row][column];
+			break;	//Jump out of the loop
+		} else {
+			result = 0xFF;
+		}
+	}
+	return result;
+}
+*/
+

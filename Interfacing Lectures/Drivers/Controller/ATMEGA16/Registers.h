@@ -13,6 +13,13 @@
 #define CONTROLLER_REGISTERS_H_
 
 
+#define SREG	(*((volatile unsigned char* const)(0x5F)))
+#define GIE		7
+
+#define GICR	(*((volatile unsigned char* const)(0x5B)))
+#define INT0		6
+
+
 //Special Function I/O Register
 #define SFIOR	(*((volatile unsigned char* const)(0x50)))
 #define PUD		2		//Pull up disable bit in SFIOR

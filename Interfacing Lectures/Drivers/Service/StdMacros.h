@@ -29,7 +29,7 @@
 
 //This macro used to read a specific bit from a register
 //It returns 1 if bit is 1 AND returns 0 if bit is 0
-#define READ_BIT(reg, bit)	(reg & (1<<bit))
+#define READ_BIT(reg, bit)	((reg & (1<<bit))?1:0)
 
 
 #endif /* SERVICE_STDMACROS_H_ */

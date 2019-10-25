@@ -26,7 +26,17 @@
  * prerequisites:	No prerequisites
  */
 void GPIO_init(void) {
+	DDRA = 0;		//Initialize portA pins to input
+	DDRB = 0;
+	DDRC = 0;
+	DDRD = 0;
 
+	PORTA = 0;
+	PORTB = 0;
+	PORTC = 0;
+	PORTD = 0;
+
+	CLEAR_BIT(SFIOR, PUD);
 }
 
 /* Brief:	set a specific DIO pin direction
@@ -110,6 +120,64 @@ StdReturn GPIO_setPinDirection(GPIO_port port, uint8 pin, GPIO_pinType state) {
  */
 StdReturn GPIO_writePin(GPIO_port port, uint8 pin, GPIO_pinState state) {
 
+	if (pin > MAX_PIN_NUMBER) {
+		return E_NOK;
+	} else {
+		switch (port) {
+		case GPIO_PORTA:
+			switch (state) {
+			case GPIO_HIGH:
+				SET_BIT(PORTA, pin);
+				break;
+			case GPIO_LOW:
+				CLEAR_BIT(PORTA, pin);
+				break;
+			default:
+				return E_NOK;
+			}
+			break;
+
+		case GPIO_PORTB:
+			switch (state) {
+			case GPIO_HIGH:
+				SET_BIT(PORTB, pin);
+				break;
+			case GPIO_LOW:
+				CLEAR_BIT(PORTB, pin);
+				break;
+			default:
+				return E_NOK;
+			}
+			break;
+
+		case GPIO_PORTC:
+			switch (state) {
+			case GPIO_HIGH:
+				SET_BIT(PORTC, pin);
+				break;
+			case GPIO_LOW:
+				CLEAR_BIT(PORTC, pin);
+				break;
+			default:
+				return E_NOK;
+			}
+			break;
+		case GPIO_PORTD:
+			switch (state) {
+			case GPIO_HIGH:
+				SET_BIT(PORTD, pin);
+				break;
+			case GPIO_LOW:
+				CLEAR_BIT(PORTD, pin);
+				break;
+			default:
+				return E_NOK;
+			}
+			break;
+
+		}
+	}
+
 	return E_OK;
 }
 
@@ -122,6 +190,25 @@ StdReturn GPIO_writePin(GPIO_port port, uint8 pin, GPIO_pinState state) {
  * prerequisites:	pin direction to be set INPUT
  */
 StdReturn GPIO_readPin(GPIO_port port, uint8 pin, GPIO_pinState *state) {
+
+	if (pin > MAX_PIN_NUMBER) {
+		return E_NOK;
+	} else {
+		switch (port) {
+		case GPIO_PORTA:
+			*state = READ_BIT(PINA, pin);
+			break;
+		case GPIO_PORTB:
+			*state = READ_BIT(PINB, pin);
+			break;
+		case GPIO_PORTC:
+			*state = READ_BIT(PINC, pin);
+			break;
+		case GPIO_PORTD:
+			*state = READ_BIT(PIND, pin);
+			break;
+		}
+	}
 
 	return E_OK;
 }
@@ -136,6 +223,56 @@ StdReturn GPIO_readPin(GPIO_port port, uint8 pin, GPIO_pinState *state) {
  * prerequisites:	pin direction to be set INPUT
  */
 StdReturn GPIO_enablePullup(GPIO_port port, uint8 pin, GPIO_pullupEnable state) {
+
+	if (pin > MAX_PIN_NUMBER) {
+		return E_NOK;
+	} else {
+		switch (port) {
+		case GPIO_PORTA:
+			switch (state) {
+			case GPIO_PULLUP_DISABLE:
+				CLEAR_BIT(PORTA, pin);
+				break;
+			case GPIO_PULLUP_ENABLE:
+				SET_BIT(PORTA, pin);
+				break;
+			}
+			break;
+		case GPIO_PORTB:
+			switch (state) {
+			case GPIO_PULLUP_DISABLE:
+				CLEAR_BIT(PORTB, pin);
+				break;
+			case GPIO_PULLUP_ENABLE:
+				SET_BIT(PORTB, pin);
+				break;
+			}
+			break;
+		case GPIO_PORTC:
+			switch (state) {
+			case GPIO_PULLUP_DISABLE:
+				CLEAR_BIT(PORTC, pin);
+				break;
+			case GPIO_PULLUP_ENABLE:
+				SET_BIT(PORTC, pin);
+				break;
+			}
+			break;
+		case GPIO_PORTD:
+			switch (state) {
+			case GPIO_PULLUP_DISABLE:
+				CLEAR_BIT(PORTD, pin);
+				break;
+			case GPIO_PULLUP_ENABLE:
+				SET_BIT(PORTD, pin);
+				break;
+			}
+			break;
+
+		default:
+			return E_NOK;
+		}
+	}
 
 	return E_OK;
 }
