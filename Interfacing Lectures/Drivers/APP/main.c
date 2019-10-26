@@ -27,11 +27,13 @@ int main() {
 
 	/*Configuration*/
 	GPIO_setPinDirection(GPIO_PORTB, LED_PIN, GPIO_OUTPUT);
-	extInt_callback(toggle);
+	extInt0_init(EXTINT_RISING_EDGE);
+	extInt0_callback(toggle);
 
 
 	/*Initialization*/
 	GPIO_writePin(GPIO_PORTB, LED_PIN, GPIO_LOW);
+
 
 	while (1) {
 
