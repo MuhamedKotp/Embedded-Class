@@ -5,39 +5,37 @@
  *      Author: Muhamed Kotp
  */
 
-#include <avr/interrupt.h>
-#include "../MCAL/GPIO/GPIO.h"
-#include "../MCAL/Ext_Interrupt/Ext_Interrupt.h"
+#include <util/delay.h>
+#include "../Service/StdTypes.h"
+#include "../HAL/LCD/LCD.h"
+#include "../MCAL/ADC/ADC.H"
 
 #define F_CPU	8000000UL
+#define LDR		1
 
-#define LED_PIN		7
-
-
-void toggle(void){
-	GPIO_togglePin(GPIO_PORTB, LED_PIN);
-}
-
-
-
+f32 adcValue = 0;
 
 int main() {
 	GPIO_init();
-	extInt_init();
+	LCD_init();
+	ADC_init();
 
 	/*Configuration*/
-	GPIO_setPinDirection(GPIO_PORTB, LED_PIN, GPIO_OUTPUT);
-	extInt0_init(EXTINT_RISING_EDGE);
-	extInt0_callback(toggle);
 
 
 	/*Initialization*/
-	GPIO_writePin(GPIO_PORTB, LED_PIN, GPIO_LOW);
+	LCD_writeTxt("Welcome");
 
+	_delay_ms(1000);
+	LCD_writeCmd(lCD_CLEAR);
 
 	while (1) {
-
+		ADC_getVolt(LDR, &adcValue);
+		LCD_writeNumber(adcValue);
+		_delay_ms(500);
+		LCD_writeCmd(lCD_CLEAR);
 	}
 
 	return 0;
 }
+
