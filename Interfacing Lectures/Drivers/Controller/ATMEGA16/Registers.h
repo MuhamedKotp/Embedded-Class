@@ -55,6 +55,85 @@
 #define ADCH	(*((volatile unsigned char* const)(0x25)))
 #define ADCL	(*((volatile unsigned char* const)(0x24)))
 
+//Timer 0 registers
+#define TCCR0	(*((volatile unsigned char* const)(0x53)))
+#define FOC0	7
+#define WGM00	6
+#define COM01	5
+#define COM00	4
+#define WGM01	3
+#define CS02	2
+#define CS01	1
+#define CS00	0
+
+
+#define TCNT0	(*((volatile unsigned char* const)(0x52)))
+#define OCR0	(*((volatile unsigned char* const)(0x5C)))
+
+#define TIMSK	(*((volatile unsigned char* const)(0x59)))
+#define OCIE0	1
+#define TOIE0	0
+
+#define TIFR	(*((volatile unsigned char* const)(0x58)))
+#define OCF0	1
+#define TOV0	0
+
+
+//UART registers
+#define UDR	(*((volatile unsigned char* const)(0x2C)))
+
+
+#define UCSRA	(*((volatile unsigned char* const)(0x2B)))
+#define RXC		7
+#define TXC		6
+#define UDRE	5
+#define FE		4
+#define DOR		3
+#define PE		2
+#define U2x		1
+#define MPCM	0
+
+#define UCSRB	(*((volatile unsigned char* const)(0x2A)))
+#define RXCIE	7
+#define TXCIE	6
+#define UDRIE	5
+#define RXEN	4
+#define TXEN	3
+#define UCSZ2	2
+#define RXB8	1
+#define TXB8	0
+
+#define UCSRC	(*((volatile unsigned char* const)(0x40)))
+#define URSEL	7
+#define UMSEL	6
+#define UPM1	5
+#define UPM0	4
+#define USBS	3
+#define UCSZ1	2
+#define UCSZ0	1
+#define UCPOL	0
+
+#define UBRRH	(*((volatile unsigned char* const)(0x40)))
+#define UBRRL	(*((volatile unsigned char* const)(0x29)))
+
+
+//SPI Registers
+#define SPCR	(*((volatile unsigned char* const)(0x40)))
+#define SPIE	7
+#define SPE		6
+#define DORD	5
+#define MSTR	4
+#define CPOL	3
+#define CPHA	2
+#define SPR1	1
+#define SPR0	0
+
+#define SPSR	(*((volatile unsigned char* const)(0x40)))
+#define SPIF	7
+#define WCOL	6
+#define SPI2X	0
+
+#define SPDR	(*((volatile unsigned char* const)(0x40)))
 
 
 //Special Function I/O Register

@@ -1,0 +1,51 @@
+/*
+ * main.c
+ *
+ *  Created on: Sep 20, 2019
+ *      Author: Muhamed Kotp
+ */
+//#include <avr/interrupt.h>
+//#include <avr/io.h>
+#include "../Service/StdTypes.h"
+#include "../Service/StdMacros.h"
+#include "../MCAL/GPIO/GPIO.h"
+#include "../MCAL/UART/UART.h"
+#include "../Controller/ATMEGA16/Registers.h"
+#include <util/delay.h>
+
+
+#define F_CPU	8000000UL
+
+
+uint8 x = 0;
+
+ISR(USART_RXC_vect){
+	x = UDR;
+}
+
+
+int main() {
+	GPIO_init();
+	UART_init();
+	SET_BIT(SREG, 7);
+
+	GPIO_setPinDirection(GPIO_PORTB, 7, GPIO_OUTPUT);
+	/*Initialization*/
+
+	while (1) {
+		//UART_transmitChar('A');
+		//UART_receiveChar(&x);
+
+		switch(x){
+		case '1':
+			UART_transmitChar('A');
+			//GPIO_togglePin(GPIO_PORTB, 7);
+			break;
+		}
+		x = 0;
+		//_delay_ms(1000);
+	}
+
+	return 0;
+}
+

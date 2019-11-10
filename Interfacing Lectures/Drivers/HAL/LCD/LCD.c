@@ -12,12 +12,12 @@ static void intToString(uint16 number, uint8 *txt);
 
 //configure LCD pins
 void LCD_init(void) {
-	GPIO_setPinDirection(LCD_PORT_REG, RS_PIN, GPIO_OUTPUT);
-	GPIO_setPinDirection(LCD_PORT_REG, E_PIN, GPIO_OUTPUT);
-	GPIO_setPinDirection(LCD_PORT_REG, D7_PIN, GPIO_OUTPUT);
-	GPIO_setPinDirection(LCD_PORT_REG, D6_PIN, GPIO_OUTPUT);
-	GPIO_setPinDirection(LCD_PORT_REG, D5_PIN, GPIO_OUTPUT);
-	GPIO_setPinDirection(LCD_PORT_REG, D4_PIN, GPIO_OUTPUT);
+	GPIO_setPinDirection(RS_PORT_REG, RS_PIN, GPIO_OUTPUT);
+	GPIO_setPinDirection(E_PORT_REG, E_PIN, GPIO_OUTPUT);
+	GPIO_setPinDirection(D7_PORT_REG, D7_PIN, GPIO_OUTPUT);
+	GPIO_setPinDirection(D6_PORT_REG, D6_PIN, GPIO_OUTPUT);
+	GPIO_setPinDirection(D5_PORT_REG, D5_PIN, GPIO_OUTPUT);
+	GPIO_setPinDirection(D4_PORT_REG, D4_PIN, GPIO_OUTPUT);
 
 	LCD_writeCmd(LCD_GO_HOME);
 	LCD_writeCmd(LCD_4_BIT_MODE);
@@ -29,14 +29,14 @@ void LCD_init(void) {
 
 //Function to  send command to LCD
 StdReturn LCD_writeCmd(uint8 cmd) {
-	GPIO_writePin(LCD_PORT_REG, RS_PIN, GPIO_LOW);
+	GPIO_writePin(RS_PORT_REG, RS_PIN, GPIO_LOW);
 	writeByte(cmd);
 	return E_OK;
 }
 
 //Function to  write single character on the LCD
 StdReturn LCD_writeChar(uint8 data) {
-	GPIO_writePin(LCD_PORT_REG, RS_PIN, GPIO_HIGH);
+	GPIO_writePin(RS_PORT_REG, RS_PIN, GPIO_HIGH);
 	writeByte(data);
 	return E_OK;
 }
@@ -65,63 +65,63 @@ StdReturn LCD_writeNumber(uint16 num) {
 static void writeByte(uint8 data) {
 	//Send first nibble
 	if (READ_BIT(data, 7) == 1) {
-		GPIO_writePin(LCD_PORT_REG, D7_PIN, GPIO_HIGH);
+		GPIO_writePin(D7_PORT_REG, D7_PIN, GPIO_HIGH);
 	} else {
-		GPIO_writePin(LCD_PORT_REG, D7_PIN, GPIO_LOW);
+		GPIO_writePin(D7_PORT_REG, D7_PIN, GPIO_LOW);
 	}
 
 	if (READ_BIT(data, 6) == 1) {
-		GPIO_writePin(LCD_PORT_REG, D6_PIN, GPIO_HIGH);
+		GPIO_writePin(D6_PORT_REG, D6_PIN, GPIO_HIGH);
 	} else {
-		GPIO_writePin(LCD_PORT_REG, D6_PIN, GPIO_LOW);
+		GPIO_writePin(D5_PORT_REG, D6_PIN, GPIO_LOW);
 	}
 
 	if (READ_BIT(data, 5) == 1) {
-		GPIO_writePin(LCD_PORT_REG, D5_PIN, GPIO_HIGH);
+		GPIO_writePin(D5_PORT_REG, D5_PIN, GPIO_HIGH);
 	} else {
-		GPIO_writePin(LCD_PORT_REG, D5_PIN, GPIO_LOW);
+		GPIO_writePin(D5_PORT_REG, D5_PIN, GPIO_LOW);
 	}
 
 	if (READ_BIT(data, 4) == 1) {
-		GPIO_writePin(LCD_PORT_REG, D4_PIN, GPIO_HIGH);
+		GPIO_writePin(D4_PORT_REG, D4_PIN, GPIO_HIGH);
 	} else {
-		GPIO_writePin(LCD_PORT_REG, D4_PIN, GPIO_LOW);
+		GPIO_writePin(D4_PORT_REG, D4_PIN, GPIO_LOW);
 	}
 	//Send enable pulse
-	GPIO_writePin(LCD_PORT_REG, E_PIN, GPIO_HIGH);
+	GPIO_writePin(E_PORT_REG, E_PIN, GPIO_HIGH);
 	_delay_ms(1);
-	GPIO_writePin(LCD_PORT_REG, E_PIN, GPIO_LOW);
+	GPIO_writePin(E_PORT_REG, E_PIN, GPIO_LOW);
 	_delay_ms(1);
 
 	//Send second nibble
 	if (READ_BIT(data, 3) == 1) {
-		GPIO_writePin(LCD_PORT_REG, D7_PIN, GPIO_HIGH);
+		GPIO_writePin(D7_PORT_REG, D7_PIN, GPIO_HIGH);
 	} else {
-		GPIO_writePin(LCD_PORT_REG, D7_PIN, GPIO_LOW);
+		GPIO_writePin(D7_PORT_REG, D7_PIN, GPIO_LOW);
 	}
 
 	if (READ_BIT(data, 2) == 1) {
-		GPIO_writePin(LCD_PORT_REG, D6_PIN, GPIO_HIGH);
+		GPIO_writePin(D6_PORT_REG, D6_PIN, GPIO_HIGH);
 	} else {
-		GPIO_writePin(LCD_PORT_REG, D6_PIN, GPIO_LOW);
+		GPIO_writePin(D6_PORT_REG, D6_PIN, GPIO_LOW);
 	}
 
 	if (READ_BIT(data, 1) == 1) {
-		GPIO_writePin(LCD_PORT_REG, D5_PIN, GPIO_HIGH);
+		GPIO_writePin(D5_PORT_REG, D5_PIN, GPIO_HIGH);
 	} else {
-		GPIO_writePin(LCD_PORT_REG, D5_PIN, GPIO_LOW);
+		GPIO_writePin(D5_PORT_REG, D5_PIN, GPIO_LOW);
 	}
 
 	if (READ_BIT(data, 0) == 1) {
-		GPIO_writePin(LCD_PORT_REG, D4_PIN, GPIO_HIGH);
+		GPIO_writePin(D4_PORT_REG, D4_PIN, GPIO_HIGH);
 	} else {
-		GPIO_writePin(LCD_PORT_REG, D4_PIN, GPIO_LOW);
+		GPIO_writePin(D4_PORT_REG, D4_PIN, GPIO_LOW);
 	}
 
 	//Send enable pulse
-	GPIO_writePin(LCD_PORT_REG, E_PIN, GPIO_HIGH);
+	GPIO_writePin(E_PORT_REG, E_PIN, GPIO_HIGH);
 	_delay_ms(1);
-	GPIO_writePin(LCD_PORT_REG, E_PIN, GPIO_LOW);
+	GPIO_writePin(E_PORT_REG, E_PIN, GPIO_LOW);
 	_delay_ms(1);
 }
 

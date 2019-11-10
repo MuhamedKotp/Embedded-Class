@@ -16,7 +16,12 @@
 #define D5_PIN	3
 #define D4_PIN	2
 
-#define LCD_PORT_REG  GPIO_PORTC
+#define RS_PORT_REG  GPIO_PORTC
+#define E_PORT_REG   GPIO_PORTC
+#define D7_PORT_REG  GPIO_PORTC
+#define D6_PORT_REG  GPIO_PORTC
+#define D5_PORT_REG  GPIO_PORTC
+#define D4_PORT_REG  GPIO_PORTC
 
 
 

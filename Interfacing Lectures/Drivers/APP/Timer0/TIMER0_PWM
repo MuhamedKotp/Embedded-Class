@@ -1,0 +1,53 @@
+/*
+ * main.c
+ *
+ *  Created on: Sep 20, 2019
+ *      Author: Muhamed Kotp
+ */
+//#include <avr/interrupt.h>
+#include "../Service/StdTypes.h"
+#include "../Service/StdMacros.h"
+#include "../MCAL/GPIO/GPIO.h"
+#include "../Controller/ATMEGA16/Registers.h"
+
+
+#define LED		1
+
+
+
+
+int main() {
+	GPIO_init();
+	//Enable Global interrupt
+	SET_BIT(SREG, GIE);
+
+	//Set mode to Fast PWM
+	SET_BIT(TCCR0, WGM01);
+	SET_BIT(TCCR0, WGM00);
+
+	//Toggle on CTC match
+	SET_BIT(TCCR0, COM01);
+	SET_BIT(TCCR0, COM00);
+
+	//Prescaler 8
+	SET_BIT(TCCR0, CS01);
+
+	//Set OCR Value
+	OCR0 = 200;
+
+	//Enable CTC interrupt
+	SET_BIT(TIMSK, OCIE0);
+
+	/*Configuration*/
+	GPIO_setPinDirection(GPIO_PORTB, 3, GPIO_OUTPUT);
+
+
+	/*Initialization*/
+
+	while (1) {
+
+	}
+
+	return 0;
+}
+
