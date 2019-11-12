@@ -21,11 +21,13 @@
 #include "../../Service/StdTypes.h"
 
 
-#define MAX_PIN_NUMBER		7
 
 /***************************************************************
  *********************Data types section************************
  **************************************************************/
+//Max pin number in the port
+#define MAX_PIN_NUMBER		7
+
 //Data type for ports
 typedef enum{
 	GPIO_PORTA,		//Port A
