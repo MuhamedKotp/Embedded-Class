@@ -17,10 +17,10 @@
 /***************************************************************
  *********************Includes section************************
  **************************************************************/
+#include "../../Controller/ATMEGA32/Interrupts.h"
 #include "../../Service/StdMacros.h"
 #include "../../Service/StdTypes.h"
 #include "../../Controller/ATMEGA32/Registers.h"
-#include "../../Controller/ATMEGA32/interrupts.h"
 
 /***************************************************************
  *********************Data types section************************

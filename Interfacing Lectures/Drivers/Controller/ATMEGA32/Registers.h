@@ -34,8 +34,8 @@
 
 //Registers for ADC
 #define ADMUX	(*((volatile unsigned char* const)(0x27)))
-#define REFS1	7
-#define REFS0	6
+#define REFS1	7		//ADC select reference
+#define REFS0	6		//ADC select reference
 #define ADLAR	5
 #define MUX4	4
 #define MUX3	3
@@ -44,17 +44,17 @@
 #define MUX0	0
 
 #define ADCSRA	(*((volatile unsigned char* const)(0x26)))
-#define ADEN	7
+#define ADEN	7		//Enable ADC
 #define ADSC	6
 #define ADATE	5
-#define ADIF	4
-#define ADIE	3
+#define ADIF	4		//ADC interrupt flag
+#define ADIE	3		//ADC interrupt enable
 #define ADPS2	2
 #define ADPS1	1
 #define ADPS0	0
 
-#define ADCH	(*((volatile unsigned char* const)(0x25)))
-#define ADCL	(*((volatile unsigned char* const)(0x24)))
+#define ADCH	(*((volatile unsigned char* const)(0x25)))		//ADC data register high
+#define ADCL	(*((volatile unsigned char* const)(0x24)))		//ADC data register low
 
 //Timer 0 registers
 #define TCCR0	(*((volatile unsigned char* const)(0x53)))
@@ -81,8 +81,7 @@
 
 
 //UART registers
-#define UDR	(*((volatile unsigned char* const)(0x2C)))
-
+#define UDR	(*((volatile unsigned char* const)(0x2C)))		//UART data register
 
 #define UCSRA	(*((volatile unsigned char* const)(0x2B)))
 #define RXC		7
@@ -91,18 +90,18 @@
 #define FE		4
 #define DOR		3
 #define PE		2
-#define U2x		1
+#define U2x		1		//Double speed mode
 #define MPCM	0
 
 #define UCSRB	(*((volatile unsigned char* const)(0x2A)))
 #define RXCIE	7
 #define TXCIE	6
 #define UDRIE	5
-#define RXEN	4
-#define TXEN	3
+#define RXEN	4		//Enable UART receive
+#define TXEN	3		//Enable UART transmit
 #define UCSZ2	2
-#define RXB8	1
-#define TXB8	0
+#define RXB8	1		//Receive data bit 9
+#define TXB8	0		//Transmit data bit 9
 
 #define UCSRC	(*((volatile unsigned char* const)(0x40)))
 #define URSEL	7
@@ -118,22 +117,25 @@
 #define UBRRL	(*((volatile unsigned char* const)(0x29)))
 
 
-//SPI Registers
+/*********************SPI Registers**********************/
+//SPI Control register
 #define SPCR	(*((volatile unsigned char* const)(0x2D)))
-#define SPIE	7
-#define SPE		6
-#define DORD	5
-#define MSTR	4
-#define CPOL	3
-#define CPHA	2
-#define SPR1	1
-#define SPR0	0
+#define SPIE	7		//SPI interrupt enable
+#define SPE		6		//SPI enable
+#define DORD	5		//Data order LSB/MSB first
+#define MSTR	4		//Master/Slave select
+#define CPOL	3		//Clock polarity
+#define CPHA	2		//Clock phase
+#define SPR1	1		//Clock rate select (Prescaler select)
+#define SPR0	0		//Clock rate select (Prescaler select)
 
+//SPI status register
 #define SPSR	(*((volatile unsigned char* const)(0x2E)))
-#define SPIF	7
-#define WCOL	6
-#define SPI2X	0
+#define SPIF	7		//SPI interrupt flag
+#define WCOL	6		//Write collision flag
+#define SPI2X	0		//SPI double speed mode
 
+//SPI data register
 #define SPDR	(*((volatile unsigned char* const)(0x2F)))
 
 

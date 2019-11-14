@@ -1,0 +1,51 @@
+/*
+ * main.c
+ *
+ *  Created on: Nov 14, 2019
+ *      Author: Muhamed Kotp
+ */
+
+#include <util/delay.h>
+#include "../Service/StdTypes.h"
+#include "../MCAL/SPI/SPI.h"
+#include "../Controller/ATMEGA32/Registers.h"
+
+#define F_CPU	8000000UL
+
+#define LED_1	0
+#define LED_2	1
+
+uint8 rxData = 0;
+
+int main() {
+	GPIO_init();
+	SPI_init();
+
+	/*Configuration*/
+	SPI_modeSelect(SPI_SLAVE);
+	GPIO_setPinDirection(GPIO_PORTA, LED_1, GPIO_OUTPUT);
+	GPIO_setPinDirection(GPIO_PORTA, LED_2, GPIO_OUTPUT);
+
+	/*Initialization*/
+
+	while (1) {
+		SPI_receiveChar(&rxData);
+		switch (rxData) {
+		case 'A':
+			GPIO_writePin(GPIO_PORTA, LED_1, GPIO_HIGH);
+			GPIO_writePin(GPIO_PORTA, LED_2, GPIO_LOW);
+			break;
+		case 'B':
+			GPIO_writePin(GPIO_PORTA, LED_2, GPIO_HIGH);
+			GPIO_writePin(GPIO_PORTA, LED_1, GPIO_LOW);
+			break;
+		default:
+			GPIO_writePin(GPIO_PORTA, LED_1, GPIO_LOW);
+			GPIO_writePin(GPIO_PORTA, LED_2, GPIO_LOW);
+		}
+
+	}
+
+	return 0;
+}
+

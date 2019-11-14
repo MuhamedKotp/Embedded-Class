@@ -1,51 +1,42 @@
 /*
- * Timer0.c
- *
- *  Created on: Nov 8, 2019
- *      Author: M.Kotp
+ ============================================================================
+ Name        : Timer0.c
+ Author      : Muhamed Kotp
+ Layer		 : MCAL
+ Target		 : ATMEGA16-32
+ Version     : 1.0
+ Date		 : 8/11/2019
+ Copyright   : This is an open source code for all embedded systems students
+ Description : Source code of timer 0 Driver
+ ============================================================================
  */
-
+/***************************************************************
+ *********************Includes section************************
+ **************************************************************/
 #include "Timer0.h"
 
+
+/***************************************************************
+ *********************Private data section**********************
+ **************************************************************/
 static void (*user_ptr)(void);
 
-static void (* CallBackPtr)(void);
 
-/*
+
+/***************************************************************
+ ***************Functions implementation section****************
+ **************************************************************/
 ISR(TIMER0_COMP_vect){
 	(*user_ptr)();
 }
-*/
-
-void __vector_10(void) __attribute__((signal,used));
-
-void __vector_10(void)
-{
-	(*user_ptr)();
-}
-
-/*
-void __vector_10(void) __attribute__((signal,used));
-
-void __vector_10(void)
-{
-	(*CallBackPtr)();
-}
-*/
-
 
 extern void Timer0_callback(void (*func_ptr)(void)){
 	user_ptr = func_ptr;
-}
-void TIMER0_voidSetCallBack(void (* FuncPtrCpy) (void))
-{
-	CallBackPtr = FuncPtrCpy;
 }
 
 extern void Timer0_init(void) {
 	//Set mode to CTC
 	SET_BIT(TCCR0, WGM01);
-
 
 	//Prescaler 1024
 	SET_BIT(TCCR0, CS00);

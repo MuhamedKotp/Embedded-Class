@@ -1,0 +1,45 @@
+/*
+ * main.c
+ *
+ *  Created on: Nov 14, 2019
+ *      Author: Muhamed Kotp
+ */
+
+#include <util/delay.h>
+#include "../Service/StdTypes.h"
+#include "../MCAL/SPI/SPI.h"
+#include "../Controller/ATMEGA32/Registers.h"
+
+#define F_CPU	8000000UL
+
+#define SW_1	0
+#define SW_2	1
+
+GPIO_pinState sw1State = GPIO_HIGH;
+GPIO_pinState sw2State = GPIO_HIGH;
+
+int main() {
+	GPIO_init();
+	SPI_init();
+
+	/*Configuration*/
+	SPI_modeSelect(SPI_MASTER);
+	GPIO_setPinDirection(GPIO_PORTB, SW_1, GPIO_INPUT);
+	GPIO_setPinDirection(GPIO_PORTB, SW_2, GPIO_INPUT);
+
+	/*Initialization*/
+
+	while (1) {
+		GPIO_readPin(GPIO_PORTB, SW_1, &sw1State);
+		if (sw1State == GPIO_LOW) {
+			SPI_transmitChar('A');
+		}
+		GPIO_readPin(GPIO_PORTB, SW_2, &sw2State);
+		if (sw2State == GPIO_LOW) {
+			SPI_transmitChar('B');
+		}
+	}
+
+	return 0;
+}
+

@@ -7,43 +7,37 @@
 
 #include <util/delay.h>
 #include "../Service/StdTypes.h"
-#include "../Service/StdMacros.h"
-#include "../HAL/LCD/LCD.h"
-#include "../MCAL/ADC/ADC.h"
+#include "../MCAL/SPI/SPI.h"
 #include "../Controller/ATMEGA32/Registers.h"
 
 #define F_CPU	8000000UL
-#define LDR		0
 
-uint16 adcval = 0;
-f32 adcValue = 0;
+#define SW_1	0
+#define SW_2	1
 
-void updateADC(void) {
-	ADC_getValue(&adcval);
-	adcValue = ((adcval * 5) / 1024);
-}
+GPIO_pinState sw1State = GPIO_HIGH;
+GPIO_pinState sw2State = GPIO_HIGH;
 
 int main() {
 	GPIO_init();
-	LCD_init();
-	ADC_init();
-	ADC_callback(updateADC);
-	ADC_interruptEnable(ADC_INTERRUPT_ENABLE);
-	SET_BIT(SREG, GIE);
+	SPI_init();
+
 	/*Configuration*/
+	SPI_modeSelect(SPI_MASTER);
+	GPIO_setPinDirection(GPIO_PORTB, SW_1, GPIO_INPUT);
+	GPIO_setPinDirection(GPIO_PORTB, SW_2, GPIO_INPUT);
 
 	/*Initialization*/
-	LCD_writeTxt("Welcome");
-
-	_delay_ms(1000);
-	LCD_writeCmd(lCD_CLEAR);
 
 	while (1) {
-		//ADC_readVolt(LDR, &adcValue);
-		ADC_startConversion(LDR);
-		LCD_writeNumber(adcValue);
-		_delay_ms(1000);
-		LCD_writeCmd(lCD_CLEAR);
+		GPIO_readPin(GPIO_PORTB, SW_1, &sw1State);
+		if (sw1State == GPIO_LOW) {
+			SPI_transmitChar('A');
+		}
+		GPIO_readPin(GPIO_PORTB, SW_2, &sw2State);
+		if (sw2State == GPIO_LOW) {
+			SPI_transmitChar('B');
+		}
 	}
 
 	return 0;
