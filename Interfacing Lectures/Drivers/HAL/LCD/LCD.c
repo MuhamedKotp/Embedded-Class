@@ -236,7 +236,9 @@ static void intToString(uint16 number, uint8 *txt) {
 			j++;
 		}
 	}
+	//Save the ascii of the number
 	txt[j] = number + 48;
+	//Terminate the string with NULL
 	j++;
 	txt[j] = '\0';
 }

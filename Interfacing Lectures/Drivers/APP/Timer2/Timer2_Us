@@ -1,0 +1,43 @@
+/*
+ * main.c
+ *
+ *  Created on: Sep 20, 2019
+ *      Author: Muhamed Kotp
+ */
+
+#include "../Service/StdTypes.h"
+#include "../MCAL/Timer2/Timer2.h"
+#include "../MCAL/GPIO/GPIO.h"
+#include "../Controller/ATMEGA32/Interrupts.h"
+
+
+#define LED		7
+
+
+void toggle(void){
+	GPIO_togglePin(GPIO_PORTB, LED);
+}
+
+
+int main() {
+	GPIO_init();
+	Timer2_init(TIMER2_MODE_CTC);
+
+	/*Configuration*/
+	GPIO_setPinDirection(GPIO_PORTB, LED, GPIO_OUTPUT);
+	Timer2_callback(toggle);
+
+	/*Initialization*/
+	GPIO_writePin(GPIO_PORTB, LED, GPIO_LOW);
+
+	/*Start*/
+	Timer2_startUs(500);
+	ENABLE_GLOBAL_INTERRUPT();
+
+	while (1) {
+
+	}
+
+	return 0;
+}
+

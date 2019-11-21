@@ -27,15 +27,16 @@
  */
 void GPIO_init(void) {
 	DDRA = 0;		//Initialize portA pins to input
-	DDRB = 0;
-	DDRC = 0;
-	DDRD = 0;
+	DDRB = 0;		//Initialize portB pins to input
+	DDRC = 0;		//Initialize portC pins to input
+	DDRD = 0;		//Initialize portD pins to input
 
 	PORTA = 0;
 	PORTB = 0;
 	PORTC = 0;
 	PORTD = 0;
 
+	//Enable Global Pull-up resistor's control
 	CLEAR_BIT(SFIOR, PUD);
 }
 
@@ -49,10 +50,12 @@ void GPIO_init(void) {
  * prerequisites:	GPIO module to be initialized
  */
 StdReturn GPIO_setPinDirection(GPIO_port port, uint8 pin, GPIO_pinType state) {
+	//Check for input correctness
 	if (pin > MAX_PIN_NUMBER) {
 		return E_NOK;
 	} else {
 		switch (port) {
+		//Controlling PORTA
 		case GPIO_PORTA:
 			switch (state) {
 			case GPIO_INPUT:
@@ -65,6 +68,7 @@ StdReturn GPIO_setPinDirection(GPIO_port port, uint8 pin, GPIO_pinType state) {
 				return E_NOK;
 			}
 			break;
+		//Controlling PORTB
 		case GPIO_PORTB:
 			switch (state) {
 			case GPIO_INPUT:
@@ -77,6 +81,7 @@ StdReturn GPIO_setPinDirection(GPIO_port port, uint8 pin, GPIO_pinType state) {
 				return E_NOK;
 			}
 			break;
+		//Controlling PORTC
 		case GPIO_PORTC:
 			switch (state) {
 			case GPIO_INPUT:
@@ -89,6 +94,7 @@ StdReturn GPIO_setPinDirection(GPIO_port port, uint8 pin, GPIO_pinType state) {
 				return E_NOK;
 			}
 			break;
+		//Controlling PORTD
 		case GPIO_PORTD:
 			switch (state) {
 			case GPIO_INPUT:
@@ -101,6 +107,7 @@ StdReturn GPIO_setPinDirection(GPIO_port port, uint8 pin, GPIO_pinType state) {
 				return E_NOK;
 			}
 			break;
+		//Handling port name out of range
 		default:
 			return E_NOK;
 		}

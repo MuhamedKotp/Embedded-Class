@@ -25,11 +25,13 @@
 /***************************************************************
  *********************Data types section************************
  **************************************************************/
+//Data type for defining the SPI interrupt state
 typedef enum{
 	SPI_INTERRUPT_ENABLE,
 	SPI_INTERRUPT_DISABLE
 }SPI_enuInterruptState;
 
+//Data type for defining the SPI mode
 typedef enum{
 	SPI_MASTER,
 	SPI_SLAVE

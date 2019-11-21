@@ -28,7 +28,7 @@
 //Max pin number in the port
 #define MAX_PIN_NUMBER		7
 
-//Data type for ports
+//Data type for ports names
 typedef enum{
 	GPIO_PORTA,		//Port A
 	GPIO_PORTB,		//Port B

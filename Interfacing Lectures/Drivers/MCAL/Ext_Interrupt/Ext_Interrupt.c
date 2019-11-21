@@ -77,7 +77,11 @@ StdReturn extInt0_callback(void (*func_ptr)(void)) {
 //Initialize external interrupt 1
 StdReturn extInt1_init(extInt_senseControl senseLevel) {
 	StdReturn return_Loc = E_OK;
+
+	//Enable external interrupt 1 mask
 	SET_BIT(GICR, INT1);
+
+	//Configure sense control
 	switch (senseLevel) {
 	case EXTINT_RISING_EDGE:
 		SET_BIT(MCUCR, ISC11);
@@ -103,7 +107,11 @@ StdReturn extInt1_callback(void (*func_ptr)(void)) {
 //Initialize external interrupt 2
 StdReturn extInt2_init(extInt_senseControl senseLevel) {
 	StdReturn return_Loc = E_OK;
+
+	//Enable external interrupt 2 mask
 	SET_BIT(GICR, INT2);
+
+	//Configure sense control
 	switch (senseLevel) {
 	case EXTINT_RISING_EDGE:
 		SET_BIT(MCUCSR, ISC2);

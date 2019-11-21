@@ -4,51 +4,35 @@
  *  Created on: Sep 20, 2019
  *      Author: Muhamed Kotp
  */
-//#include <avr/interrupt.h>
-//#include <avr/io.h>
-#include "../Controller/ATMEGA32/Registers.h"
+
 #include "../Service/StdTypes.h"
-#include "../Service/StdMacros.h"
-#include "../MCAL/GPIO/GPIO.h"
 #include "../MCAL/Timer0/Timer0.h"
+#include "../MCAL/GPIO/GPIO.h"
+#include "../Controller/ATMEGA32/Interrupts.h"
+
 
 #define LED		7
 
-static void (*user_ptr)(void);
 
-void toggle(void) {
-	static counter = 0;
-	counter++;
+void toggle(void){
+	GPIO_togglePin(GPIO_PORTB, LED);
+}
 
-	if (counter == 50) {
-		counter = 0;
-		GPIO_togglePin(GPIO_PORTB, LED);
-	}
-}
-/*
-void __vector_10(void) __attribute__((signal,used));
-
-void __vector_10(void) {
-	(*user_ptr)();
-}
-*/
-void setCallback(void (*func_ptr)(void)){
-	user_ptr = func_ptr;
-}
 
 int main() {
 	GPIO_init();
-	Timer0_init();
-	//setCallback(toggle);
-	Timer0_callback(toggle);
-	//TIMER0_voidSetCallBack(toggle);
-	//Enable Global interrupt
-	SET_BIT(SREG, 7);
+	Timer0_init(TIMER0_MODE_CTC);
 
 	/*Configuration*/
 	GPIO_setPinDirection(GPIO_PORTB, LED, GPIO_OUTPUT);
+	Timer0_callback(toggle);
 
 	/*Initialization*/
+	GPIO_writePin(GPIO_PORTB, LED, GPIO_LOW);
+
+	/*Start*/
+	Timer0_startMs(10);
+	ENABLE_GLOBAL_INTERRUPT();
 
 	while (1) {
 

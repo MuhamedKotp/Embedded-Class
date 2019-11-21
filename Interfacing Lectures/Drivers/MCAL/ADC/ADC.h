@@ -36,7 +36,7 @@ typedef enum{
 //Initialize the ADC module
 extern void ADC_init(void);
 //Enables/Disables the interrupt for the ADC
-extern StdReturn ADC_interruptEnable(ADC_enuInterruptState state);
+extern StdReturn ADC_setInterrupt(ADC_enuInterruptState state);
 //Set the user function to be executed on ISR
 extern void ADC_callback(void (*func_ptr)(void));
 //Start the ADC conversion - Will be notify of the end through ISR

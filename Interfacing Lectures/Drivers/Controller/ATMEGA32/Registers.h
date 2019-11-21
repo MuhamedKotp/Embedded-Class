@@ -56,32 +56,76 @@
 #define ADCH	(*((volatile unsigned char* const)(0x25)))		//ADC data register high
 #define ADCL	(*((volatile unsigned char* const)(0x24)))		//ADC data register low
 
-//Timer 0 registers
+
+/*****************Timers generic registers***********************/
+//Timer/Counter Interrupt Mask Register
+#define TIMSK	(*((volatile unsigned char* const)(0x59)))
+#define OCIE2	7		//Timer/Counter2 Output Compare Match Interrupt Enable
+#define TOIE2	6		//Timer/Counter2 Overflow Interrupt Enable
+#define TICIE1	5		//Timer/Counter1, Input Capture Interrupt Enable
+#define OCIE1A	4		//Timer/Counter1 Output Compare A Match Interrupt Enable
+#define OCIE1B	3		//Timer/Counter1 Output Compare B Match Interrupt Enable
+#define TOIE1	2		//Timer/Counter1 Overflow Interrupt Enable
+#define OCIE0	1		//Timer/Counter0 Output Compare Match Interrupt Enable
+#define TOIE0	0		//Timer/Counter0 Overflow Interrupt Enable
+
+//Timer/Counter Interrupt Flag Register
+#define TIFR	(*((volatile unsigned char* const)(0x58)))
+#define OCF2	7		//Output Compare Flag 2
+#define TOV2	6		//Timer/Counter2 Overflow Flag
+#define ICF1	5		//Timer/Counter1, Input Capture Flag
+#define OCF1A	4		//Output Compare A Flag 1
+#define OCF1B	3		//Output Compare B Flag 1
+#define TOV1	2		//Timer/Counter1 Overflow Flag
+#define OCF0	1		//Output Compare Flag 0
+#define TOV0	0		//Timer/Counter0 Overflow Flag
+
+/*****************Timer 0 registers***********************/
+//Timer/Counter2 Control Register
 #define TCCR0	(*((volatile unsigned char* const)(0x53)))
-#define FOC0	7
-#define WGM00	6
-#define COM01	5
-#define COM00	4
-#define WGM01	3
-#define CS02	2
-#define CS01	1
-#define CS00	0
+#define FOC0	7		//Force Output Compare
+#define WGM00	6		//Waveform Generation Mode
+#define COM01	5		//Compare Match Output Mode
+#define COM00	4		//Compare Match Output Mode
+#define WGM01	3		//Waveform Generation Mode
+#define CS02	2		//Clock Select
+#define CS01	1		//Clock Select
+#define CS00	0		//Clock Select
 
-
+//Timer/Counter0 Register
 #define TCNT0	(*((volatile unsigned char* const)(0x52)))
+//Output Compare 2 Register
 #define OCR0	(*((volatile unsigned char* const)(0x5C)))
 
-#define TIMSK	(*((volatile unsigned char* const)(0x59)))
-#define OCIE0	1
-#define TOIE0	0
+/*****************Timer 2 registers***********************/
+//Timer/Counter2 Control Register
+#define TCCR2	(*((volatile unsigned char* const)(0x45)))
+#define FOC2	7		//Force Output Compare
+#define WGM20	6		//Waveform Generation Mode
+#define COM21	5		//Compare Match Output Mode
+#define COM20	4		//Compare Match Output Mode
+#define WGM21	3		//Waveform Generation Mode
+#define CS22	2		//Clock Select
+#define CS21	1		//Clock Select
+#define CS20	0		//Clock Select
 
-#define TIFR	(*((volatile unsigned char* const)(0x58)))
-#define OCF0	1
-#define TOV0	0
+//Asynchronous Status Register – ASSR
+#define ASSR	(*((volatile unsigned char* const)(0x42)))
+#define AS2		3		//Asynchronous Timer/Counter2
+#define TCN2UB	2		//Timer/Counter2 Update Busy
+#define OCR2UB	1		//Output Compare Register2 Update Busy
+#define TCR2UB	0		//Timer/Counter Control Register2 Update Busy
 
 
-//UART registers
-#define UDR	(*((volatile unsigned char* const)(0x2C)))		//UART data register
+//Timer/Counter2 Register
+#define TCNT2	(*((volatile unsigned char* const)(0x44)))
+//Output Compare 2 Register
+#define OCR2	(*((volatile unsigned char* const)(0x43)))
+
+
+/*****************UART registers***********************/
+//UART data register
+#define UDR	(*((volatile unsigned char* const)(0x2C)))
 
 #define UCSRA	(*((volatile unsigned char* const)(0x2B)))
 #define RXC		7
@@ -138,11 +182,12 @@
 //SPI data register
 #define SPDR	(*((volatile unsigned char* const)(0x2F)))
 
-
+/****************************************************/
 //Special Function I/O Register
 #define SFIOR	(*((volatile unsigned char* const)(0x50)))
 #define PUD		2		//Pull up disable bit in SFIOR
 
+/******************DIO registers***********************/
 //GPIO Port A registers
 #define PORTA	(*((volatile unsigned char* const)(0x3B)))
 #define DDRA	(*((volatile unsigned char* const)(0x3A)))

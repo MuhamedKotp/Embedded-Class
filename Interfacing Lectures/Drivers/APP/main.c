@@ -5,39 +5,37 @@
  *      Author: Muhamed Kotp
  */
 
-#include <util/delay.h>
 #include "../Service/StdTypes.h"
-#include "../MCAL/SPI/SPI.h"
-#include "../Controller/ATMEGA32/Registers.h"
+#include "../MCAL/Timer0/Timer0.h"
+#include "../MCAL/GPIO/GPIO.h"
+#include "../Controller/ATMEGA32/Interrupts.h"
 
-#define F_CPU	8000000UL
 
-#define SW_1	0
-#define SW_2	1
+#define LED		7
 
-GPIO_pinState sw1State = GPIO_HIGH;
-GPIO_pinState sw2State = GPIO_HIGH;
+
+void toggle(void){
+	GPIO_togglePin(GPIO_PORTB, LED);
+}
+
 
 int main() {
 	GPIO_init();
-	SPI_init();
+	Timer0_init(TIMER0_MODE_CTC);
 
 	/*Configuration*/
-	SPI_modeSelect(SPI_MASTER);
-	GPIO_setPinDirection(GPIO_PORTB, SW_1, GPIO_INPUT);
-	GPIO_setPinDirection(GPIO_PORTB, SW_2, GPIO_INPUT);
+	GPIO_setPinDirection(GPIO_PORTB, LED, GPIO_OUTPUT);
+	Timer0_callback(toggle);
 
 	/*Initialization*/
+	GPIO_writePin(GPIO_PORTB, LED, GPIO_LOW);
+
+	/*Start*/
+	Timer0_startUs(10);
+	ENABLE_GLOBAL_INTERRUPT();
 
 	while (1) {
-		GPIO_readPin(GPIO_PORTB, SW_1, &sw1State);
-		if (sw1State == GPIO_LOW) {
-			SPI_transmitChar('A');
-		}
-		GPIO_readPin(GPIO_PORTB, SW_2, &sw2State);
-		if (sw2State == GPIO_LOW) {
-			SPI_transmitChar('B');
-		}
+
 	}
 
 	return 0;
